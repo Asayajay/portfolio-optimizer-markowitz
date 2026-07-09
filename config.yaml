@@ -1,0 +1,52 @@
+# Portfolio optimizer configuration.
+# Edit this file to change tickers, dates, or optimizer behavior --
+# no code changes needed for any of the below.
+
+# Tickers to include in the optimization universe.
+tickers:
+  - AAPL
+  - AMD
+  - AMZN
+  - AVGO
+  - COST
+  - GOOGL
+  - LLY
+  - META
+  - MSFT
+  - NFLX
+  - NVDA
+  - ORCL
+  - WMT
+  - GLD   # gold ETF, for diversification against equities
+  - VOO   # S&P 500 ETF, for diversification against single-stock risk
+
+# Historical price window used to estimate returns and covariance.
+# end_date: null means "today".
+start_date: "2019-01-01"
+end_date: null
+
+# Annualized risk-free rate used in the Sharpe ratio (e.g. ~13-week T-bill yield).
+risk_free_rate: 0.04
+
+# If true, allows negative weights (short selling). The optimizer's constraint
+# logic already supports this -- see src/optimizer.py -- but it defaults to
+# false because the rest of this project (README, sanity checks) assumes a
+# long-only, real-money portfolio.
+allow_short: false
+
+# Optional target for the "give me one portfolio" query in src/main.py.
+# Set at most one of these; if both are null, the optimizer defaults to the
+# max-Sharpe-ratio portfolio.
+target_return: null   # e.g. 0.15 for a 15% annualized target return
+target_risk: null     # e.g. 0.20 for a 20% annualized volatility cap
+
+# Trading days per year, used to annualize daily statistics.
+trading_days_per_year: 252
+
+# Number of portfolios to sample along the efficient frontier for the plot.
+frontier_points: 60
+
+# Fraction of the price history used to *estimate* returns/covariance; the
+# remainder is held out to *evaluate* the optimized weights out-of-sample.
+# This split is what the honesty check in the README is built on.
+train_test_split: 0.7
